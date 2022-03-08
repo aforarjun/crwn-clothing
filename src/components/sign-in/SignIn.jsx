@@ -3,30 +3,43 @@ import React, { Component } from 'react';
 import './SignIn.scss';
 import CustomBtn from '../custom-btn/CustomBtn';
 import FormInput from '../form-input/FormInput';
-import { signInWithgoogle } from '../../firebase/firebase.utils'
+import { auth, signInWithgoogle } from '../../firebase/firebase.utils'
 
 export class SignIn extends Component {
-    constructor(props){
-        super(props);
+  constructor(props){
+    super(props);
 
-        this.state = {
-            email: '',
-            password: '',
-        }
+    this.state = {
+      email: '',
+      password: '',
+      loading: false,
+    }
+  }
+
+  handleChange = async (e) =>{
+    const {value, name} = e.target;
+    await this.setState({ [name]: value });
+  }
+
+  handleSubmit = async (e) =>{
+    e.preventDefault();
+    
+    this.state.loading = true;
+    const { email, password } = this.state;
+
+    try{
+      await auth.signInWithEmailAndPassword(email, password);
+      this.setState({ email: '', password: '' });
+
+      alert('Login Successfull');
+      this.state.loading = false;
+    } 
+    catch (error) {
+      console.log(error);
+      alert('Incorrect Credentials');
     }
 
-    handleChange = (e) =>{
-        const {value, name} = e.target;
-        this.setState({ [name]: value });
-
-        console.log(this.state)
-    }
-
-    handleSubmit = (e) =>{
-        e.preventDefault();
-
-        this.setState({emial: '', password: ''});
-    }
+  }
 
   render() {
     return (
@@ -52,6 +65,8 @@ export class SignIn extends Component {
                 label="Password"
                 required 
             />
+
+            <div className={`${this.state.loading && 'lds-roller'}`}><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
 
             <div className="btn-box">
               <CustomBtn type="submit">Sign In</CustomBtn>

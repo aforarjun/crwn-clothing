@@ -8,7 +8,7 @@ function FormInput({ handleChange, label, ...otherProps }) {
         <input 
             className='form-input'
             {...otherProps}
-            onChange={handleChange} 
+            onChange={handleChange}
             required 
         />
         {

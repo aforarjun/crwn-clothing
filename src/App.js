@@ -9,7 +9,7 @@ import SignInSignUpPage from './Pages/sign-in-page/SignInSignUpPage';
 
 import Errorpage from './Pages/error-page/Errorpage';
 
-import { auth } from './firebase/firebase.utils'
+import { auth, createUserProfileDocument } from './firebase/firebase.utils'
 
 export class App extends Component {
   constructor(){
@@ -23,10 +23,23 @@ export class App extends Component {
   unsubscribefromAuth = null;
 
   componentDidMount(){
-    this.unsubscribefromAuth = auth.onAuthStateChanged( user => {
-      this.setState({ currentUser: user });
+    this.unsubscribefromAuth = auth.onAuthStateChanged( async userAuth => {
+      if(userAuth){
+        const userRef = await createUserProfileDocument(userAuth);
 
-      console.log(user)
+        userRef.onSnapshot(snapShot =>{
+
+          this.setState({
+            currentUser: {
+              id: snapShot.id,
+              ...snapShot.data()
+            }
+          })
+
+        })
+      }
+
+      this.setState({currentUser: userAuth})
     })
   }
 
