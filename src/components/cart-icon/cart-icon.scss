@@ -1,0 +1,18 @@
+.cart-icon{
+    width: 30px;
+    position: relative;
+    cursor: pointer;
+
+    .shopping-icon{
+        width: 100%;
+    }
+
+    .item-count{
+        font-size: 12px;
+        font-weight: 600;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+}

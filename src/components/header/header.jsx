@@ -7,7 +7,10 @@ import './header.scss';
 import { ReactComponent as Logo} from '../../assets/logo.svg';
 import { auth } from '../../firebase/firebase.utils';
 
-function Header({ currentUser }) {
+import CartIcon from '../cart-icon/CartIcon';
+import CartDropdown from '../cart-dropdown/CartDropdown';
+
+function Header({ currentUser, hidden }) {
   return (
     <nav className='header'>
       <Link to='/'>
@@ -24,15 +27,21 @@ function Header({ currentUser }) {
           :
           <Link to='/sign-in' className='option'>Sign In</Link>
         }
+        <Link to='/' className='option'>Contact</Link>
 
-        <Link to='/' className='option'>Cart</Link>
+        <CartIcon />
       </div>
+
+      {
+        hidden ? null : <CartDropdown />
+      }
     </nav>
   )
 }
 
-const mapStateToProps = state =>({
-  currentUser: state.user.currentUser
+const mapStateToProps = ({ user: {currentUser}, cart: {hidden} }) =>({
+  currentUser: currentUser,
+  hidden: hidden
 })
 
 export default connect(mapStateToProps)(Header);

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 import './App.css';
 import Header from './components/header/header';
@@ -50,9 +50,12 @@ export class App extends Component {
       <div>
         <Header />
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route exact path="/" element={<HomePage />} />
           <Route path="/shop" element={<ShopPage />} />
-          <Route path="/sign-in" element={<SignInSignUpPage />} />
+
+          <Route exact path="/sign-in" 
+            element={this.props.currentUser? <Navigate to="/" /> : <SignInSignUpPage />}
+          />
   
           <Route path='*' element={<Errorpage />} />
         </Routes>
@@ -61,8 +64,15 @@ export class App extends Component {
   }
 }
 
+const mapStateToProps = ({ user }) =>({
+  currentUser: user.currentUser
+})
+
 const mapDispatchToProps = dispatch =>({
   setCurrentUser: user => dispatch (setCurrentUser(user))
 })
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps, 
+  mapDispatchToProps
+)(App);
