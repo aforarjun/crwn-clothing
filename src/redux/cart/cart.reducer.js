@@ -1,7 +1,9 @@
 import { toggleCard } from "./cart.action";
+import { addItemsToCart } from "./cart.utiles";
 
 const INITIAL_STATE = {
-    hidden: true
+    hidden: true,
+    cartItems: []
 }
 
 const cartReducer = (state=INITIAL_STATE, action = toggleCard) =>{
@@ -11,6 +13,13 @@ const cartReducer = (state=INITIAL_STATE, action = toggleCard) =>{
                 ...state,
                 hidden: !state.hidden
             }
+        case 'ADD_CART_ITEM':
+            return {
+                ...state,
+                cartItems: addItemsToCart(state.cartItems, action.payload)
+            }
+        case 'REMOVE_CART_ITEM':
+            return {}
         default:
             return state;
     }

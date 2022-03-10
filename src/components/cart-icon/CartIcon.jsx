@@ -15,6 +15,10 @@ function CartIcon({ toggleCard }) {
   )
 }
 
+// const mapStateToProps = ({ cart: {cartItems} }) =>({
+//   totalCartItems: cartItems
+// })
+
 const mapDispatchToProps = dispatch =>({
   toggleCard: () => dispatch(toggleCard())
 })
