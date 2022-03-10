@@ -12,7 +12,6 @@ export class SignIn extends Component {
     this.state = {
       email: '',
       password: '',
-      loading: false,
     }
   }
 
@@ -23,8 +22,7 @@ export class SignIn extends Component {
 
   handleSubmit = async (e) =>{
     e.preventDefault();
-    
-    this.state.loading = true;
+
     const { email, password } = this.state;
 
     try{
@@ -32,7 +30,6 @@ export class SignIn extends Component {
       this.setState({ email: '', password: '' });
 
       alert('Login Successfull');
-      this.state.loading = false;
     } 
     catch (error) {
       console.log(error);
@@ -65,9 +62,9 @@ export class SignIn extends Component {
                 label="Password"
                 required 
             />
-
-            <div className={`${this.state.loading && 'lds-roller'}`}><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-
+{
+            // <div className='lds-roller'><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+}
             <div className="btn-box">
               <CustomBtn type="submit">Sign In</CustomBtn>
               <CustomBtn  onClick={signInWithgoogle} isGoogleSignIn>Sign In With Google</CustomBtn>
