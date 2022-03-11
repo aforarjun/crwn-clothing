@@ -1,5 +1,5 @@
 import { toggleCard } from "./cart.action";
-import { addItemsToCart } from "./cart.utiles";
+import { addItemsToCart, decreaseItemsToCart } from "./cart.utiles";
 
 const INITIAL_STATE = {
     hidden: true,
@@ -19,7 +19,15 @@ const cartReducer = (state=INITIAL_STATE, action = toggleCard) =>{
                 cartItems: addItemsToCart(state.cartItems, action.payload)
             }
         case 'REMOVE_CART_ITEM':
-            return {}
+            return {
+                ...state,
+                cartItems: state.cartItems.filter((cartItem)=> cartItem.id !== action.payload.id)
+            }
+        case 'DECREASE_CART_ITEM':
+            return {
+                ...state,
+                cartItems: decreaseItemsToCart(state.cartItems, action.payload)
+            }
         default:
             return state;
     }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { createStructuredSelector } from 'reselect';
 import CheckoutItem from '../../components/checkout-item/CheckoutItem';
@@ -29,9 +30,12 @@ function CheckOutPage({ cartItems, cartTotalPrice }) {
         </div>
 
         {
+            cartItems.length ?
             cartItems.map( cartItem => (
                 <CheckoutItem key={cartItem.id} item={cartItem} />
             ))
+            :
+            <span>No Cart Item <Link to='/shop' >Go To Shop</Link></span>
         }
 
         <div className="total">
